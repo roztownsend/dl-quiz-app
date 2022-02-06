@@ -1,14 +1,15 @@
-import React, { useContext } from "react";
-import { QuizContext } from "../helpers/Contexts";
+import { useContext } from "react";
+import Context from "./Context";
 
 function EndGame() {
-    const { setGameState } = useContext(QuizContext);
-
+  const { setGameState } = useContext(Context);
+    
     return (
-        <>
-        <div>Keep Studying!</div>
+        <div className="Menu">
+        <div className="end__blurb">That's the end of the quiz. Keep Studying!
         <button onClick={() => {setGameState("menu")}}>Try again</button>
-        </>
+        </div>
+        </div>
     )
 }
 

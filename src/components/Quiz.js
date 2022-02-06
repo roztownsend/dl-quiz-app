@@ -1,54 +1,44 @@
-import React, { useState, useContext } from "react";
-import { QuizContext } from "../helpers/Contexts";
-import { Questions } from "../helpers/QuestionBank";
+import { useState, useContext } from "react";
+import Context from "./Context";
+import QuestionBank from "./QuestionBank";
 
 function Quiz() {
-
-    const { score, setScore, setGameState } = useContext(QuizContext);
-    const [currentQuestion, setCurrentQuestion] = useState(0);
-    const [optionChosen, setOptionChosen] = useState("");
-
-    function nextQuestion() {
-        if (Questions[currentQuestion].answer === optionChosen) {
+    const { setGameState } = useContext(Context);
+    const [ score, setScore ] = useState(0);
+    const [ currentQuestion, setCurrentQuestion ] = useState(0);
+    const answerHandler = (isCorrect) => {
+        if (isCorrect === true) {
             setScore(score + 1);
-            alert(`That's right! Your current score is ${score}.`);
-            setCurrentQuestion(currentQuestion + 1);
+            alert(`That's correct!`)
         } else {
-            alert(`Oops! That's not right. Your current score is ${score}.`);
-            setCurrentQuestion(currentQuestion + 1);
+            alert(`Oops, that's not correct.`)
+        };
+
+    const nextQuestion = currentQuestion + 1; 
+        if (nextQuestion < QuestionBank.length) {
+            setCurrentQuestion(nextQuestion);            
+        } else {
+            setGameState("endgame");
         };
     }
 
-    const finishQuiz = () => {
-        if (Questions[currentQuestion].answer === optionChosen) {
-            setScore(score + 1);
-            alert(`That's right! Your current score is ${score}.`);
-            setGameState("endgame");
-        } else {
-            alert(`Oops! That's not right. Your current score is ${score}.`);
-            setGameState("endgame");
-        };
-    };
-
     return (
         <div className="Quiz">
-        <h1>{Questions[currentQuestion].prompt}</h1>
-        <div className="options">
-            <button onClick={() => setOptionChosen("A")}>
-                { Questions[currentQuestion].optionA }</button>
-            <button onClick={() => setOptionChosen("B")}>
-                { Questions[currentQuestion].optionB }</button>
-            <button onClick={() => setOptionChosen("C")}>
-                { Questions[currentQuestion].optionC }</button>
-            <button onClick={() => setOptionChosen("D")}>
-                { Questions[currentQuestion].optionD }</button>
-        </div>
-
-        {currentQuestion === Questions.length - 1 ? (
-            <button onClick={finishQuiz}>Finish Quiz</button>
-            ) : (
-            <button onClick={nextQuestion}>Next Question</button>
-        )}
+            <div className="score">Current Score: {score}
+            </div>
+            <div className="question-pane">
+                <div className="prompt">
+                    <h2>{QuestionBank[currentQuestion].prompt}</h2>
+                </div>
+                <div className="options">
+                    {
+                        QuestionBank[currentQuestion].optionChoices.map((optionChoices, index) => (
+                    <button onClick={() => answerHandler(optionChoices.isCorrect)} key={index}>{optionChoices.option}
+                    </button>
+                        ))
+                    }
+                </div>
+            </div>
         </div>
     )
 }
