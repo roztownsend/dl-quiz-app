@@ -18,6 +18,7 @@ function Quiz() {
         if (nextQuestion < QuestionBank.length) {
             setCurrentQuestion(nextQuestion);            
         } else {
+            alert(`Your final score was ${score} out of ${QuestionBank.length}.`)
             setGameState("endgame");
         };
     }
