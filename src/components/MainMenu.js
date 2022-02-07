@@ -6,7 +6,7 @@ export default function MainMenu() {
     const { setGameState } = useContext(Context);
     return <div className="Menu Menu__intro">
         <div className="intro__blurb">
-                <h2 class="smaller">
+                <h2 className="smaller">
                     This quiz corresponds to Chapter 1 and the "traffic rules" section of the 2021 edition of Körkortsboken på Engelska by Svea Trafikutbildning. The book is primarily written in British English - I've added American English terms as well for the sake of convenience.
                 </h2>
                 <p>
